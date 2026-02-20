@@ -47,6 +47,55 @@ renv::install("tidyverse/dplyr@v1.1.0")      # GitHub tag/release
 renv::snapshot()                             # update renv.lock after installing
 ```
 
+By default renv only snapshots packages that are explicitly referenced via `library()` or `require()`. The snapshot type can be changed to control this behaviour:
+
+| Type                   | Snapshots                                         | Use case               |
+|------------------------|---------------------------------------------------|------------------------|
+| `"implicit"` (default) | Packages referenced via `library()` / `require()` | Most projects          |
+| `"explicit"`           | Packages listed in a `DESCRIPTION` file           | Package development    |
+| `"all"`                | Everything installed in the project library       | Exploration / learning |
+
+This project uses `"all"` (set in `setup.R`), so the workflow is simply:
+
+```r
+renv::install("dplyr")  # install
+renv::snapshot()        # record in renv.lock - no library() call needed
+```
+
+To confirm the current snapshot type:
+
+```r
+renv::settings$snapshot.type()  # returns the current setting
+```
+
+This is actually set in `renv/settings.json`.
+
+```console
+cat renv/settings.json
+```
+```
+{
+  "bioconductor.version": "3.22",
+  "external.libraries": [],
+  "ignored.packages": [],
+  "package.dependency.fields": [
+    "Imports",
+    "Depends",
+    "LinkingTo"
+  ],
+  "ppm.enabled": null,
+  "ppm.ignored.urls": [],
+  "r.version": null,
+  "snapshot.dev": false,
+  "snapshot.type": "all",
+  "use.cache": true,
+  "vcs.ignore.cellar": true,
+  "vcs.ignore.library": true,
+  "vcs.ignore.local": true,
+  "vcs.manage.ignores": true
+}
+```
+
 ## Project structure
 
 ```console
