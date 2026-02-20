@@ -18,6 +18,9 @@ if (file.exists("renv.lock")) {
 
 renv::settings$bioconductor.version("3.22")
 
+# Ignore editor tooling that is not a project dependency
+renv::settings$ignored.packages("nvimcom")
+
 # Snapshot all installed packages, not just those referenced via library().
 renv::settings$snapshot.type("all")
 message("Snapshot type: ", renv::settings$snapshot.type())
