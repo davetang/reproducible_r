@@ -96,6 +96,30 @@ cat renv/settings.json
 }
 ```
 
+### Package cache
+
+renv uses a global cache shared across all renv projects on the machine (`"use.cache": true` in `renv/settings.json`). Packages are installed once to the cache and linked into each project library, saving time and disk space.
+
+To find the cache location:
+
+```r
+renv::paths$cache()
+```
+
+Default locations by OS:
+
+| OS      | Default cache path                                        |
+|---------|-----------------------------------------------------------|
+| Linux   | `~/.local/share/renv/cache`                               |
+| macOS   | `~/Library/Caches/org.R-project.R/R/renv/cache`          |
+| Windows | `%LOCALAPPDATA%/R/cache/R/renv/cache`                    |
+
+To use a custom location (e.g. a shared network drive), set `RENV_PATHS_CACHE` in your `.Renviron` file:
+
+```console
+RENV_PATHS_CACHE=/path/to/shared/cache
+```
+
 ## Project structure
 
 ```console
